@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lavender Gleam — Handcrafted Jewelry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --lav:    #C8B8E8;
+      --lavd:   #8B70C4;
+      --lavp:   #F3EFF9;
+      --gold:   #C9A96E;
+      --cream:  #FAF7F2;
+      --ink:    #1C1626;
+      --muted:  #6B5F7A;
+      --border: rgba(140,112,196,0.18);
+    }
+
+    html { scroll-behavior:smooth; font-size:14px; }
+
+    body {
+      font-family:'Jost',sans-serif;
+      background:var(--cream);
+      color:var(--ink);
+      overflow-x:hidden;
+      max-width:1366px;
+      margin:0 auto;
+    }
+
+    nav {
+      position:fixed; top:0; left:50%; transform:translateX(-50%);
+      width:100%; max-width:1366px; z-index:200;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0.7rem 3rem;
+      background:rgba(250,247,242,0.93);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+    .logo {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.25rem; font-weight:600; letter-spacing:0.04em;
+      color:var(--ink); text-decoration:none;
+    }
+    .logo span { color:var(--lavd); }
+    .nav-links { display:flex; gap:1.8rem; list-style:none; }
+    .nav-links a {
+      font-size:0.68rem; font-weight:300; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--muted); text-decoration:none;
+      transition:color .2s;
+    }
+    .nav-links a:hover { color:var(--lavd); }
+    .nav-btn {
+      font-size:0.65rem; font-weight:400; letter-spacing:0.1em;
+      text-transform:uppercase; text-decoration:none;
+      padding:0.4rem 1rem;
+      border:1px solid var(--lavd); color:var(--lavd);
+      border-radius:100px; transition:background .2s, color .2s;
+    }
+    .nav-btn:hover { background:var(--lavd); color:#fff; }
+
+    /* ─── SHARED ─── */
+    .tag {
+      display:inline-block;
+      font-size:0.58rem; font-weight:400; letter-spacing:0.22em;
+      text-transform:uppercase; color:var(--gold); margin-bottom:0.55rem;
+    }
+    h2.sec-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.1rem; font-weight:300; line-height:1.12; color:var(--ink);
+    }
+    h2.sec-title em { font-style:italic; color:var(--lavd); }
+    .btn-dark {
+      display:inline-block;
+      font-size:0.66rem; font-weight:400; letter-spacing:0.12em;
+      text-transform:uppercase; text-decoration:none;
+      padding:0.68rem 1.8rem;
+      background:var(--ink); color:var(--cream);
+      border-radius:100px; transition:background .25s;
+      border:none; cursor:pointer;
+    }
+    .btn-dark:hover { background:var(--lavd); }
+    .btn-outline {
+      display:inline-block;
+      font-size:0.66rem; font-weight:400; letter-spacing:0.12em;
+      text-transform:uppercase; text-decoration:none;
+      padding:0.68rem 1.8rem;
+      background:transparent; color:var(--lavd);
+      border:1px solid var(--lavd);
+      border-radius:100px; transition:background .25s, color .25s;
+    }
+    .btn-outline:hover { background:var(--lavd); color:#fff; }
+
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.on { opacity:1; transform:none; }
+    .d1 { transition-delay:.1s; }
+    .d2 { transition-delay:.2s; }
+    .d3 { transition-delay:.3s; }
+    .d4 { transition-delay:.4s; }
+    .d5 { transition-delay:.5s; }
+
+    #hero {
+      margin-top:48px;
+      height:calc(100vh - 48px);
+      min-height:580px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+    }
+    .hero-text {
+      display:flex; flex-direction:column; justify-content:center;
+      padding:2.5rem 2.5rem 2.5rem 3.5rem;
+    }
+    .hero-text .tag { margin-bottom:0.9rem; }
+    h1.hero-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:3.8rem; font-weight:300; line-height:1.04;
+      color:var(--ink); margin-bottom:1rem;
+    }
+    h1.hero-title em { font-style:italic; color:var(--lavd); }
+    .hero-sub {
+      font-size:0.8rem; font-weight:300; line-height:1.82;
+      color:var(--muted); max-width:36ch; margin-bottom:1.8rem;
+    }
+    .hero-btns { display:flex; align-items:center; gap:1.2rem; }
+    .hero-visual {
+      position:relative; overflow:hidden; background:var(--lavp);
+    }
+    .hero-visual::before {
+      content:''; position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 70% 60% at 60% 40%,rgba(200,184,232,.35) 0%,transparent 70%),
+        radial-gradient(ellipse 50% 50% at 20% 80%,rgba(201,169,110,.15) 0%,transparent 60%);
+    }
+    .orb {
+      position:absolute; border-radius:50%;
+      animation:bob 6s ease-in-out infinite;
+    }
+    .orb1 {
+      width:230px; height:230px;
+      background:radial-gradient(circle,rgba(200,184,232,.6) 0%,transparent 70%);
+      top:12%; left:12%;
+    }
+    .orb2 {
+      width:140px; height:140px;
+      background:radial-gradient(circle,rgba(201,169,110,.4) 0%,transparent 70%);
+      bottom:18%; right:10%; animation-delay:2s;
+    }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .gem-svg {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:190px; height:190px;
+    }
+    .hero-badge {
+      position:absolute; bottom:1.4rem; left:1.4rem;
+      background:rgba(250,247,242,.93); border:1px solid var(--border);
+      border-radius:.75rem; padding:.65rem .95rem;
+      backdrop-filter:blur(8px);
+    }
+    .badge-n {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.55rem; font-weight:300; color:var(--lavd); line-height:1;
+    }
+    .badge-l { font-size:.58rem; font-weight:300; color:var(--muted); letter-spacing:.08em; margin-top:.1rem; }
+
+    #cta {
+      background:var(--lavd);
+      padding:3.2rem 3.5rem;
+      display:grid; grid-template-columns:1fr auto;
+      align-items:center; gap:2rem;
+    }
+    .cta-left .tag { color:rgba(255,255,255,.55); }
+    #cta h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2rem; font-weight:300; line-height:1.1; color:#fff;
+    }
+    #cta h2 em { font-style:italic; color:var(--gold); }
+    #cta p {
+      font-size:.78rem; font-weight:300; color:rgba(255,255,255,.7);
+      line-height:1.8; margin-top:.6rem; max-width:50ch;
+    }
+    .cta-right { display:flex; flex-direction:column; gap:.9rem; align-items:flex-end; }
+    .btn-light {
+      display:inline-block;
+      font-size:.66rem; font-weight:400; letter-spacing:.12em;
+      text-transform:uppercase; text-decoration:none;
+      padding:.68rem 1.8rem;
+      background:var(--cream); color:var(--lavd);
+      border-radius:100px; transition:background .25s;
+    }
+    .btn-light:hover { background:#fff; }
+    .btn-ghost-w {
+      font-size:.64rem; font-weight:300; letter-spacing:.1em;
+      text-transform:uppercase; color:rgba(255,255,255,.65);
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.3); padding-bottom:2px;
+      transition:color .2s;
+    }
+    .btn-ghost-w:hover { color:#fff; }
+    .cta-stat {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.4rem; font-weight:300; color:#fff; text-align:center; line-height:1;
+    }
+    .cta-stat-l { font-size:.6rem; font-weight:300; color:rgba(255,255,255,.5); letter-spacing:.1em; text-transform:uppercase; text-align:center; }
+    .cta-stats { display:flex; gap:2.5rem; }
+
+    #benefits {
+      padding:3.5rem 3.5rem;
+      background:#fff;
+    }
+    .benefits-head {
+      display:flex; align-items:flex-end; justify-content:space-between;
+      margin-bottom:2rem;
+    }
+    .benefits-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;
+    }
+    .benefit-card {
+      border:1px solid var(--border); border-radius:1rem;
+      padding:1.4rem 1.4rem 1.6rem;
+      background:var(--cream);
+      transition:transform .35s cubic-bezier(.23,1,.32,1), border-color .25s;
+    }
+    .benefit-card:hover { transform:translateY(-4px); border-color:var(--lavd); }
+    .bc-icon {
+      width:44px; height:44px; border-radius:.75rem;
+      background:var(--lavp); display:flex; align-items:center; justify-content:center;
+      font-size:1.3rem; margin-bottom:1rem;
+    }
+    .bc-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.15rem; font-weight:400; color:var(--ink); margin-bottom:.35rem;
+    }
+    .bc-desc { font-size:.72rem; font-weight:300; color:var(--muted); line-height:1.7; }
+
+    #about {
+      padding:3.5rem 3.5rem;
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:4rem; align-items:center;
+      background:var(--cream);
+    }
+    .about-visual {
+      position:relative; border-radius:1.2rem; overflow:hidden;
+      height:360px; background:var(--lavp);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .about-gem { font-size:5rem; opacity:.5; }
+    .about-float {
+      position:absolute; bottom:1.2rem; right:-0.8rem;
+      background:var(--lavd); color:#fff;
+      border-radius:.8rem; padding:.85rem 1.1rem;
+      font-family:'Cormorant Garamond',serif;
+    }
+    .af-n { font-size:1.8rem; font-weight:300; line-height:1; }
+    .af-l { font-size:.6rem; font-weight:300; font-family:'Jost',sans-serif; opacity:.8; margin-top:.12rem; letter-spacing:.07em; }
+    .about-text h2 { margin-bottom:.9rem; }
+    .about-text p {
+      font-size:.78rem; font-weight:300; line-height:1.92;
+      color:var(--muted); margin-bottom:.8rem;
+    }
+    .about-facts {
+      display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1.3rem;
+    }
+    .fact {
+      border-left:2px solid var(--lav); padding-left:.8rem;
+    }
+    .fact-n {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.5rem; font-weight:300; color:var(--lavd); line-height:1;
+    }
+    .fact-l { font-size:.62rem; font-weight:300; color:var(--muted); letter-spacing:.07em; margin-top:.1rem; }
+
+    #team {
+      padding:3.5rem 3.5rem;
+      background:var(--ink);
+    }
+    #team .tag { color:var(--gold); }
+    #team h2.sec-title { color:#fff; margin-bottom:2rem; }
+    #team h2.sec-title em { color:var(--lav); }
+    .team-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:1rem;
+    }
+    .team-card {
+      border-radius:1rem; overflow:hidden;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      transition:transform .35s;
+    }
+    .team-card:hover { transform:translateY(-4px); }
+    .team-avatar {
+      height:160px; display:flex; align-items:center; justify-content:center;
+      font-size:3.5rem; position:relative; overflow:hidden;
+    }
+    .team-avatar::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to bottom,transparent 60%,rgba(28,22,38,.6));
+    }
+    .team-info { padding:1rem 1.1rem 1.2rem; }
+    .team-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.1rem; font-weight:400; color:#fff;
+    }
+    .team-role {
+      font-size:.62rem; font-weight:300; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--lav); margin:.2rem 0 .5rem;
+    }
+    .team-bio { font-size:.68rem; font-weight:300; color:rgba(255,255,255,.5); line-height:1.65; }
+
+    #tc {
+      padding:3.5rem 3.5rem;
+      background:var(--lavp);
+    }
+    .tc-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:3rem;
+    }
+
+    /* testimonials side */
+    .testi-side .tag { margin-bottom:.55rem; }
+    .testi-side h2 { margin-bottom:1.5rem; }
+    .testi-list { display:flex; flex-direction:column; gap:.9rem; }
+    .tcard {
+      background:#fff; border:1px solid var(--border);
+      border-radius:.9rem; padding:1.1rem 1.3rem;
+    }
+    .tstars { color:var(--gold); font-size:.72rem; letter-spacing:.1em; margin-bottom:.5rem; }
+    .tquote {
+      font-family:'Cormorant Garamond',serif;
+      font-size:.95rem; font-style:italic; font-weight:300;
+      line-height:1.65; color:var(--ink); margin-bottom:.6rem;
+    }
+    .tauthor { font-size:.6rem; font-weight:300; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+
+    .contact-side { display:flex; flex-direction:column; justify-content:space-between; }
+    .contact-side h2 { margin-bottom:.7rem; }
+    .contact-side > p {
+      font-size:.78rem; font-weight:300; color:var(--muted); line-height:1.8; margin-bottom:1.4rem;
+    }
+    .cform { display:flex; flex-direction:column; gap:.7rem; }
+    .cform-row { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+    .cform input, .cform textarea, .cform select {
+      font-family:'Jost',sans-serif; font-size:.75rem; font-weight:300;
+      padding:.65rem .9rem;
+      border:1px solid var(--border); border-radius:.5rem;
+      background:#fff; color:var(--ink);
+      outline:none; transition:border-color .2s;
+      resize:none;
+    }
+    .cform input::placeholder, .cform textarea::placeholder { color:var(--muted); }
+    .cform input:focus, .cform textarea:focus { border-color:var(--lavd); }
+    .cform textarea { height:80px; }
+    .cform-bottom { display:flex; align-items:center; justify-content:space-between; }
+    .contact-info { display:flex; gap:1.5rem; margin-top:1rem; }
+    .ci-item { display:flex; align-items:center; gap:.45rem; }
+    .ci-icon { font-size:.9rem; }
+    .ci-text { font-size:.65rem; font-weight:300; color:var(--muted); }
+
+    footer {
+      background:var(--ink); color:rgba(255,255,255,.45);
+      padding:2rem 3.5rem;
+      display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:2.5rem;
+    }
+    .fb .logo { color:#fff; font-size:1.05rem; }
+    .fb p { font-size:.65rem; font-weight:300; line-height:1.75; margin-top:.55rem; }
+    footer h4 { font-size:.58rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-bottom:.6rem; }
+    footer ul { list-style:none; display:flex; flex-direction:column; gap:.3rem; }
+    footer ul a { font-size:.68rem; font-weight:300; color:rgba(255,255,255,.45); text-decoration:none; transition:color .2s; }
+    footer ul a:hover { color:var(--lav); }
+    .fbot {
+      background:var(--ink); color:rgba(255,255,255,.22);
+      text-align:center; font-size:.58rem; letter-spacing:.1em;
+      padding:.8rem 3.5rem;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">Lavender<span>Gleam</span></a>
+  <ul class="nav-links">
+    <li><a href="#cta">Shop</a></li>
+    <li><a href="#benefits">Why Us</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#tc">Contact</a></li>
+  </ul>
+  <a href="#tc" class="nav-btn">Get in Touch</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-text">
+    <span class="tag">✦ Handcrafted in the Philippines</span>
+    <h1 class="hero-title">
+      Where <em>light</em><br>meets<br>fine jewelry
+    </h1>
+    <p class="hero-sub">Each Lavender Gleam piece is crafted by hand — a wearable whisper of elegance made to be yours forever.</p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-dark">Shop Now</a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <svg class="gem-svg" viewBox="0 0 260 260" fill="none" aria-hidden="true">
+      <polygon points="130,30 200,90 200,170 130,230 60,170 60,90" fill="none" stroke="#C8B8E8" stroke-width="1.5" opacity="0.5"/>
+      <polygon points="130,50 185,100 185,160 130,210 75,160 75,100" fill="rgba(200,184,232,0.12)" stroke="#C8B8E8" stroke-width="1"/>
+      <polygon points="130,70 170,110 170,150 130,190 90,150 90,110" fill="rgba(200,184,232,0.22)" stroke="#8B70C4" stroke-width="1.2"/>
+      <polygon points="130,95 155,125 130,165 105,125" fill="rgba(139,112,196,0.35)" stroke="#8B70C4" stroke-width="1.5"/>
+      <line x1="130" y1="30"  x2="130" y2="95"  stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <line x1="200" y1="90"  x2="155" y2="125" stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <line x1="200" y1="170" x2="155" y2="125" stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <line x1="60"  y1="90"  x2="105" y2="125" stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <line x1="60"  y1="170" x2="105" y2="125" stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <line x1="130" y1="230" x2="130" y2="165" stroke="#C8B8E8" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="130" cy="130" r="6" fill="#C9A96E" opacity="0.8"/>
+      <circle cx="130" cy="130" r="3" fill="#C9A96E"/>
+    </svg>
+    <div class="hero-badge">
+      <div class="badge-n">500+</div>
+      <div class="badge-l">Pieces crafted</div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-left reveal">
+    <span class="tag">✦ Limited Collection — 2025</span>
+    <h2>Your next <em>heirloom</em><br>is waiting for you</h2>
+    <p>Browse our seasonal collections or order a bespoke piece made just for you. Free local delivery in Tarlac and Pangasinan on orders over ₱1,500.</p>
+  </div>
+  <div class="cta-right reveal d2">
+    <div class="cta-stats">
+      <div>
+        <div class="cta-stat">500+</div>
+        <div class="cta-stat-l">Pieces sold</div>
+      </div>
+      <div>
+        <div class="cta-stat">4.9★</div>
+        <div class="cta-stat-l">Avg. rating</div>
+      </div>
+      <div>
+        <div class="cta-stat">100%</div>
+        <div class="cta-stat-l">Handcrafted</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.9rem;margin-top:.5rem;">
+      <a href="#tc" class="btn-light">Order Now</a>
+      <a href="#benefits" class="btn-ghost-w">See the benefits</a>
+    </div>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="benefits-head reveal">
+    <div>
+      <span class="tag">✦ Why Lavender Gleam</span>
+      <h2 class="sec-title">Jewelry that <em>means something</em></h2>
+    </div>
+    <a href="#tc" class="btn-outline">Start Your Order</a>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card reveal">
+      <div class="bc-icon">🤲</div>
+      <p class="bc-title">100% Handcrafted</p>
+      <p class="bc-desc">Every piece is made by hand in our local studio — no machines, no mass production. Each item is unique and made with focused attention to detail.</p>
+    </div>
+    <div class="benefit-card reveal d1">
+      <div class="bc-icon">💎</div>
+      <p class="bc-title">Premium Materials</p>
+      <p class="bc-desc">We use only sterling silver, 14k gold-filled metals, and ethically sourced gemstones. Quality you can feel and see with every wear.</p>
+    </div>
+    <div class="benefit-card reveal d2">
+      <div class="bc-icon">✏️</div>
+      <p class="bc-title">Custom Orders Welcome</p>
+      <p class="bc-desc">Can't find the perfect piece? We'll create one just for you. Tell us your vision and we'll bring it to life — engravings, birthstones, and more.</p>
+    </div>
+    <div class="benefit-card reveal d1">
+      <div class="bc-icon">📦</div>
+      <p class="bc-title">Beautiful Packaging</p>
+      <p class="bc-desc">Every order arrives in our signature lavender gift box — ready to give. No extra wrapping needed, whether it's a gift or a treat for yourself.</p>
+    </div>
+    <div class="benefit-card reveal d2">
+      <div class="bc-icon">🌱</div>
+      <p class="bc-title">Ethically Made</p>
+      <p class="bc-desc">From sourcing to shipping, we care about impact. We use eco-conscious packaging and partner only with responsible material suppliers.</p>
+    </div>
+    <div class="benefit-card reveal d3">
+      <div class="bc-icon">🇵🇭</div>
+      <p class="bc-title">Proudly Local</p>
+      <p class="bc-desc">Born and made in the Philippines. Every purchase supports a small local business and the Filipino artisan tradition of fine craft.</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-gem">💜</div>
+    <div class="about-float">
+      <div class="af-n">2021</div>
+      <div class="af-l">Est. in Pangasinan</div>
+    </div>
+  </div>
+  <div class="about-text reveal d2">
+    <span class="tag">✦ Our Story</span>
+    <h2 class="sec-title">Born from a love of <em>beautiful things</em></h2>
+    <p>Lavender Gleam started in a small apartment studio in Bautista, Pangasinan. What began as a hobby — bending wire, setting stones, gifting pieces to friends — quickly became something more. Word spread. Orders came in. And a brand was born.</p>
+    <p>We believe jewelry should be personal. Not mass-produced or trend-chasing, but quiet and considered — made to last decades and be passed down. Every Lavender Gleam piece is designed to tell a story that's uniquely yours.</p>
+    <div class="about-facts">
+      <div class="fact reveal d1">
+        <div class="fact-n">500+</div>
+        <div class="fact-l">Happy customers</div>
+      </div>
+      <div class="fact reveal d2">
+        <div class="fact-n">4 yrs</div>
+        <div class="fact-l">Of craftsmanship</div>
+      </div>
+      <div class="fact reveal d3">
+        <div class="fact-n">100%</div>
+        <div class="fact-l">Made by hand</div>
+      </div>
+      <div class="fact reveal d4">
+        <div class="fact-n">30+</div>
+        <div class="fact-l">Unique designs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <span class="tag reveal">✦ The People Behind the Pieces</span>
+  <h2 class="sec-title reveal d1">Meet our <em>team</em></h2>
+  <div class="team-grid" style="margin-top:0;">
+    <div class="team-card reveal">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#e8e0f5,#c8b8e8);">🧑‍🎨</div>
+      <div class="team-info">
+        <p class="team-name">Sofia Reyes</p>
+        <p class="team-role">Founder & Head Designer</p>
+        <p class="team-bio">Sofia started Lavender Gleam from her bedroom studio. With a fine arts background, she leads all design and creative direction.</p>
+      </div>
+    </div>
+    <div class="team-card reveal d1">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#f5e8d8,#e8d4a8);">💍</div>
+      <div class="team-info">
+        <p class="team-name">Marco Cruz</p>
+        <p class="team-role">Master Jeweler</p>
+        <p class="team-bio">With 10+ years in silversmithing, Marco turns Sofia's sketches into wearable pieces with precision and patience.</p>
+      </div>
+    </div>
+    <div class="team-card reveal d2">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#e8f0e8,#b8d4b8);">📸</div>
+      <div class="team-info">
+        <p class="team-name">Lea Santos</p>
+        <p class="team-role">Brand & Photography</p>
+        <p class="team-bio">Lea handles everything visual — from product photography to social media, making each piece look as beautiful as it is in person.</p>
+      </div>
+    </div>
+    <div class="team-card reveal d3">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#f5eaf0,#e8b8d0);">📦</div>
+      <div class="team-info">
+        <p class="team-name">Jay Dela Cruz</p>
+        <p class="team-role">Operations & Fulfillment</p>
+        <p class="team-bio">Jay ensures every order is packed perfectly and delivered on time. He's the reason your package arrives looking like a gift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tc">
+  <div class="tc-grid">
+
+    <div class="testi-side">
+      <span class="tag reveal">✦ What Customers Say</span>
+      <h2 class="sec-title reveal d1">Loved by <em>hundreds</em></h2>
+      <div class="testi-list">
+        <div class="tcard reveal d1">
+          <p class="tstars">★★★★★</p>
+          <p class="tquote">"I've received more compliments on my Lavender Gleam necklace than anything I own. It feels truly special — like it was made just for me."</p>
+          <p class="tauthor">— Maria S., Pangasinan</p>
+        </div>
+        <div class="tcard reveal d2">
+          <p class="tstars">★★★★★</p>
+          <p class="tquote">"Ordered a custom ring as a gift. It came out even more beautiful than I imagined. The packaging alone made me emotional!"</p>
+          <p class="tauthor">— Jasmine T., Tarlac</p>
+        </div>
+        <div class="tcard reveal d3">
+          <p class="tstars">★★★★★</p>
+          <p class="tquote">"Quality you'd expect from much pricier brands, but with that personal local touch. I'm officially a loyal customer forever."</p>
+          <p class="tauthor">— Carla R., Bulacan</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-side">
+      <div>
+        <span class="tag reveal">✦ Reach Out</span>
+        <h2 class="sec-title reveal d1">Let's make something <em>for you</em></h2>
+        <p class="reveal d2">Whether it's a question, a custom order, or just a hello — we'd love to hear from you. We typically reply within 24 hours.</p>
+      </div>
+      <div class="cform reveal d2">
+        <div class="cform-row">
+          <input type="text" placeholder="Your name"/>
+          <input type="email" placeholder="Email address"/>
+        </div>
+        <input type="text" placeholder="Subject (e.g. Custom order enquiry)"/>
+        <textarea placeholder="Tell us about the piece you have in mind…"></textarea>
+        <div class="cform-bottom">
+          <button class="btn-dark" type="submit">Send Message</button>
+          <div class="contact-info">
+            <div class="ci-item">
+              <span class="ci-icon">📍</span>
+              <span class="ci-text">Bautista, Pangasinan, PH</span>
+            </div>
+            <div class="ci-item">
+              <span class="ci-icon">📸</span>
+              <span class="ci-text">@lavendergleam</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="fb">
+    <a href="#" class="logo">Lavender<span style="color:var(--lav)">Gleam</span></a>
+    <p>Handcrafted jewelry from the heart of Central Luzon, Philippines.<br>Made with love, worn forever.</p>
+  </div>
+  <div>
+    <h4>Shop</h4>
+    <ul>
+      <li><a href="#">Rings</a></li>
+      <li><a href="#">Necklaces</a></li>
+      <li><a href="#">Earrings</a></li>
+      <li><a href="#">Bracelets</a></li>
+      <li><a href="#">Custom Orders</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Shopee</a></li>
+      <li><a href="#">hello@lavendergleam.ph</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="fbot">© 2025 Lavender Gleam · Bautista, Philippines · All rights reserved</div>
+
+<script>
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
